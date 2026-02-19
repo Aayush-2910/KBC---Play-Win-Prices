@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question {{ level + 1 }} - Crorepati</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="aurora-bg"></div>
+    
+    <div class="game-layout">
+        <!-- Prize Ladder Sidebar -->
+        <aside class="prize-sidebar">
+            <h3 class="sidebar-title">Prize Ladder</h3>
+            <div class="prize-list">
+                {% for i in range(prize_ladder|length - 1, -1, -1) %}
+                <div class="prize-item 
+                    {% if i == level %}active{% elif i < level %}completed{% endif %}
+                    {% if prize_ladder[i] in safe_levels %}safe{% endif %}">
+                    <span class="prize-level">{{ i + 1 }}</span>
+                    <span class="prize-value">₹{{ "{:,}".format(prize_ladder[i]) }}</span>
+                    {% if prize_ladder[i] in safe_levels %}
+                    <span class="safe-icon">🛡️</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </aside>
+        
+        <!-- Main Game Area -->
+        <main class="game-main">
+            <!-- Header Stats -->
+            <div class="game-header">
+                <div class="stat-card">
+                    <span class="stat-label">Question</span>
+                    <span class="stat-value">{{ level + 1 }}/{{ prize_ladder|length }}</span>
+                </div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Playing For</span>
+                    <span class="stat-value gold">₹{{ "{:,}".format(prize) }}</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Current Winnings</span>
+                    <span class="stat-value success">₹{{ "{:,}".format(current_winnings) }}</span>
+                </div>
+            </div>
+            
+            <!-- Question Card -->
+            <div class="glass-card question-card" id="questionCard">
+                <div class="question-number">Question {{ level + 1 }}</div>
+                <h2 class="question-text">{{ question.question }}</h2>
+                
+                <!-- Options Grid -->
+                <div class="options-grid" id="optionsGrid">
+                    {% for i in range(4) %}
+                    <button class="option-btn" data-option="{{ i }}" type="button">
+                        <span class="option-label">{{ ['A', 'B', 'C', 'D'][i] }}</span>
+                        <span class="option-text">{{ question.options[i] }}</span>
+                        <span class="option-glow"></span>
+                    </button>
+                    {% endfor %}
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-bar">
+                    <button id="confirmBtn" class="btn-primary" disabled>
+                        <span class="btn-text">CONFIRM ANSWER</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <a href="{{ url_for('quit_game') }}" class="btn-secondary">
+                        <span class="btn-text">QUIT & TAKE MONEY</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Hidden Form -->
+    <form id="answerForm" action="{{ url_for('answer') }}" method="POST" style="display: none;">
+        <input type="hidden" name="answer" id="selectedAnswer">
+    </form>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over - Crorepati</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="aurora-bg"></div>
+    
+    <div class="container">
+        <div class="result-container">
+            <!-- Result Icon -->
+            <div class="result-icon-wrapper">
+                {% if status == 'won' %}
+                <div class="result-icon win">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" fill="url(#winGradient)" stroke="#00FFB3" stroke-width="1"/>
+                        <defs>
+                            <linearGradient id="winGradient" x1="12" y1="2" x2="12" y2="21">
+                                <stop offset="0%" stop-color="#00FFB3"/>
+                                <stop offset="100%" stop-color="#00E5FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                {% elif status == 'lost' %}
+                <div class="result-icon lose">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#FF3D71" stroke-width="2" fill="none"/>
+                        <path d="M8 8L16 16M16 8L8 16" stroke="#FF3D71" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                {% else %}
+                <div class="result-icon quit">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Result Title -->
+            {% if status == 'won' %}
+            <h1 class="result-title win">CONGRATULATIONS!</h1>
+            <p class="result-message">You've conquered all 25 questions and won the grand prize!</p>
+            {% elif status == 'lost' %}
+            <h1 class="result-title lose">WRONG ANSWER!</h1>
+            <p class="result-message">Don't worry, you gave it your best shot!</p>
+            {% else %}
+            <h1 class="result-title quit">GAME ENDED</h1>
+            <p class="result-message">You chose to quit and take your winnings.</p>
+            {% endif %}
+            
+            <!-- Winnings Card -->
+            <div class="glass-card winnings-card">
+                <p class="winnings-label">Your Total Winnings</p>
+                <p class="winnings-amount">₹{{ "{:,}".format(winnings) }}</p>
+                {% if status == 'won' %}
+                <p class="winnings-subtitle">You are now a CROREPATI! 🎉</p>
+                {% elif winnings > 0 %}
+                <p class="winnings-subtitle">Well played! Come back for another challenge.</p>
+                {% else %}
+                <p class="winnings-subtitle">Better luck next time!</p>
+                {% endif %}
+            </div>
+            
+            <!-- Play Again Button -->
+            <a href="{{ url_for('index') }}" class="btn-primary btn-large">
+                <span class="btn-text">PLAY AGAIN</span>
+                <span class="btn-glow"></span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Trigger confetti for winners
+        {% if status == 'won' %}
+        window.addEventListener('load', function() {
+            const duration = 5000;
+            const animationEnd = Date.now() + duration;
+            
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+                
+                const particleCount = 100 * (timeLeft / duration);
+                
+                confetti({
+                    particleCount,
+                    startVelocity: 30,
+                    spread: 360,
+                    ticks: 60,
+                    origin: { 
+                        x: randomInRange(0.1, 0.9), 
+                        y: Math.random() - 0.2 
+                    },
+                    colors: ['#FFD700', '#F5C518', '#00FFB3', '#00E5FF', '#FF3D71'],
+                    zIndex: 9999
+                });
+            }, 250);
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

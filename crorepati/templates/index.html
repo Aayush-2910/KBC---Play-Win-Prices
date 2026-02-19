@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crorepati - Premium Quiz Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="aurora-bg"></div>
+    
+    <div class="container">
+        <div class="welcome-container">
+            <!-- Logo/Title Section -->
+            <div class="logo-section">
+                <div class="crown-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" fill="url(#goldGradient)" stroke="#FFD700" stroke-width="1"/>
+                        <defs>
+                            <linearGradient id="goldGradient" x1="12" y1="2" x2="12" y2="21">
+                                <stop offset="0%" stop-color="#FFD700"/>
+                                <stop offset="100%" stop-color="#F5C518"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1 class="game-title">CROREPATI</h1>
+                <p class="game-subtitle">Premium Quiz Challenge</p>
+            </div>
+            
+            <!-- Info Card -->
+            <div class="glass-card info-card">
+                <h2 class="card-title">Game Rules</h2>
+                <div class="rules-grid">
+                    <div class="rule-item">
+                        <div class="rule-icon">🎯</div>
+                        <div class="rule-text">
+                            <h3>25 Questions</h3>
+                            <p>Answer all to win ₹10 Crore</p>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon">💰</div>
+                        <div class="rule-text">
+                            <h3>Prize Ladder</h3>
+                            <p>Each correct answer increases winnings</p>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon">🛡️</div>
+                        <div class="rule-text">
+                            <h3>Safe Levels</h3>
+                            <p>₹10K | ₹3.2L | ₹1Cr guaranteed</p>
+                        </div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon">⚠️</div>
+                        <div class="rule-text">
+                            <h3>Wrong Answer</h3>
+                            <p>Drop to last safe level</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Start Button -->
+            <form action="{{ url_for('start_game') }}" method="POST">
+                <button type="submit" class="btn-primary btn-large">
+                    <span class="btn-text">START GAME</span>
+                    <span class="btn-glow"></span>
+                </button>
+            </form>
+            
+            <p class="footer-tagline">Test your knowledge. Win big. Become a Crorepati.</p>
+        </div>
+    </div>
+</body>
+</html>
