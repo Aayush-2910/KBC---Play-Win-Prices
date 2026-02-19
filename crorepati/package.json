@@ -1,0 +1,37 @@
+{
+  "name": "crorepati-quiz-game",
+  "version": "2.0.0",
+  "description": "A premium web-based quiz game inspired by Kaun Banega Crorepati with modern UI/UX",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py",
+    "dev": "python app.py",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "quiz",
+    "game",
+    "kbc",
+    "crorepati",
+    "flask",
+    "python",
+    "glassmorphism",
+    "premium-ui"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/crorepati-quiz-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/crorepati-quiz-game/issues"
+  },
+  "homepage": "https://github.com/yourusername/crorepati-quiz-game#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.7.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
